@@ -1,0 +1,253 @@
+package com.mycompany.reto1;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+/**
+ *
+ * @author magal
+ */
+public class Reto1 extends JFrame implements ActionListener
+{
+    JLabel labelDescription;
+    JLabel labelKey;
+    JTextField textField;
+    JButton button1, button2, button3 , buttonPlus;
+    JButton button4, button5, button6 , buttonRes;
+    JButton button7, button8, button9 , buttonMulti;
+    JButton buttonC, button0, buttonEqual, buttonDiv;
+    
+    String dpyNum="";
+    double numero1=0;
+    double numero2=0;
+    double resultado;
+    boolean numero2On=false, sumOn=false;
+    boolean resOn=false;
+    boolean divOn=false;
+    boolean multiOn=false;
+      
+    public Reto1() 
+    {
+        setTitle("Calculadora NetBeans");
+        setSize(373, 470);
+        setLocationRelativeTo(null);        
+        setLayout(null);
+
+
+        labelKey = new JLabel();
+        labelKey.setBounds(160, 10, 356, 30);
+        textField = new JTextField();
+        textField.setBounds(15, 15, 326, 50);        
+//Primer Linea de botones        
+        button1 = new JButton("1");
+        button1.setBounds(15, 80, 80, 80);
+        button1.addActionListener(this);
+        
+        button2 = new JButton("2");
+        button2.setBounds(98, 80, 80, 80);
+        button2.addActionListener(this);
+        
+        button3 = new JButton("3");
+        button3.setBounds(181, 80, 80, 80);
+        button3.addActionListener(this);
+        
+        buttonPlus = new JButton("+");
+        buttonPlus.setBounds(264, 80, 80, 80);
+        buttonPlus.addActionListener(this);  
+        
+//Segunda Linea de botones
+        button4 = new JButton("4");
+        button4.setBounds(15, 163, 80, 80);
+        button4.addActionListener(this);
+        
+        button5 = new JButton("5");
+        button5.setBounds(98, 163, 80, 80);
+        button5.addActionListener(this);
+        
+        button6 = new JButton("6");
+        button6.setBounds(181, 163, 80, 80);
+        button6.addActionListener(this);
+        
+        buttonRes = new JButton("-");
+        buttonRes.setBounds(264, 163, 80, 80);
+        buttonRes.addActionListener(this);
+
+//Tercer Linea de botones
+        button7 = new JButton("7");
+        button7.setBounds(15, 246, 80, 80);
+        button7.addActionListener(this);
+        
+        button8 = new JButton("8");
+        button8.setBounds(98, 246, 80, 80);     
+        button8.addActionListener(this);
+        
+        button9 = new JButton("9");
+        button9.setBounds(181, 246, 80, 80);
+        button9.addActionListener(this);
+        
+        buttonMulti = new JButton("*");
+        buttonMulti.setBounds(264, 246, 80, 80);
+        buttonMulti.addActionListener(this);
+
+//Cuarta Linea de botones
+        buttonC = new JButton("C");
+        buttonC.setBounds(15, 329, 80, 80);
+        buttonC.addActionListener(this);   
+        
+        button0 = new JButton("0");
+        button0.setBounds(98, 329, 80, 80);  
+        button0.addActionListener(this);
+        
+        buttonEqual = new JButton("=");
+        buttonEqual.setBounds(181, 329, 80, 80);
+        buttonEqual.addActionListener(this);   
+        
+        buttonDiv = new JButton("/");
+        buttonDiv.setBounds(264, 329, 80, 80);
+        buttonDiv.addActionListener(this);
+
+        
+        
+        getContentPane().add(textField);  
+        getContentPane().add(labelKey);
+        
+        getContentPane().add(button1);
+        getContentPane().add(button2);
+        getContentPane().add(button3);
+        getContentPane().add(buttonPlus);
+        
+        getContentPane().add(button4);
+        getContentPane().add(button5);
+        getContentPane().add(button6);
+        getContentPane().add(buttonRes);
+        
+        getContentPane().add(button7);
+        getContentPane().add(button8);
+        getContentPane().add(button9);
+        getContentPane().add(buttonMulti);
+
+        getContentPane().add(buttonC);
+        getContentPane().add(button0);
+        getContentPane().add(buttonEqual);
+        getContentPane().add(buttonDiv);
+        
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+ 
+        
+          
+
+    public static void main(String[] args) 
+    {
+        new Reto1();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) 
+    {
+        switch(e.getActionCommand())
+         {
+            case "+" :
+                if(numero2On){        //Si hay un segundo numero, resuleve la ultima operacion y guarda el resultado en la variable numero1
+                    Resolver();
+                }
+                textField.setText(e.getActionCommand());   //muestra la el boton seleccionado
+                dpyNum="";                                 //limpia el numero que se muestra en la pantalla
+                numero2On=true;       //activa el segundo numero implicado en la operacion
+                sumOn=true;           //activa el indicador de suma, para que el metodo Resolver, funcione ya sea en otra operacion o en el boton igual y apaga todos los demas, que puedan venir de antes (o si no las realizara la operacion relacionada de nuevo)
+                resOn=false;
+                multiOn=false;
+                divOn=false;
+            break;
+            case "*" :
+                if(numero2On){
+                    Resolver();             
+                }
+                textField.setText(e.getActionCommand());
+                dpyNum="";
+                numero2On=true;
+                multiOn=true;
+                sumOn=false;
+                resOn=false;
+                divOn=false;
+            break;
+            case "/" :
+                if(numero2On){
+                    Resolver();              
+                }
+                textField.setText(e.getActionCommand());
+                dpyNum="";
+                numero2On=true;
+                divOn=true;
+                sumOn=false;
+                resOn=false;
+                multiOn=false;
+            break;
+            case "C" :        //limpia todas las variables
+                resultado=0;
+                numero1=0;
+                numero2=0;
+                textField.setText(String.valueOf(resultado));
+                dpyNum="";
+                numero2On=false;
+                sumOn=false;
+                resOn=false;
+                multiOn=false;
+                divOn=false;
+            break;
+            case "-" :
+                if(numero2On){
+                    Resolver();
+                }
+                textField.setText(e.getActionCommand());
+                dpyNum="";
+                numero2On=true;
+                resOn=true;
+                sumOn=false;
+                multiOn=false;
+                divOn=false;
+            break;
+            case "=" :
+                    Resolver();  
+                
+                textField.setText(String.valueOf(resultado));
+                dpyNum="";
+                numero2On=false;  
+                sumOn=false;
+                resOn=false;
+                multiOn=false;
+                divOn=false;
+            break;    
+            default :  //el default es para los numeros, uso dos variables para guardarlos y una para mostrarlo en pantalla
+                dpyNum = dpyNum + e.getActionCommand() ;
+                textField.setText(dpyNum);
+                if(numero2On)
+                {
+                numero2=Integer.parseInt(dpyNum);      
+                }else{
+                numero1=Integer.parseInt(dpyNum);
+                }
+         }
+    }
+
+//Use el metodo para que se puedan hacer varias operaciones seguidas y diferentes antes de darle al boton igual
+    private void Resolver() 
+    {
+                    if(sumOn){
+                        resultado=numero1+numero2;
+                    }               
+                    if(resOn){
+                        resultado=numero1-numero2;
+                    }
+                    if(multiOn){
+                        resultado=numero1*numero2;
+                    }
+                      if(divOn){
+                        resultado=numero1/numero2;
+                    }
+                    numero1=resultado;
+    }
+}
